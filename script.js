@@ -1,25 +1,20 @@
 const convertBtn = document.getElementById("convert-btn");
 
 const convertToRoman = () => {
-  const numberInput = document.getElementById("number").value;
-  let displayOutput = document.getElementById("output");
-  const num = parseInt(numberInput);
+  const inputNumber = document.getElementById("number").value;
+  const displayOutput = document.getElementById("output");
+  const parsedNumber = parseInt(inputNumber);
 
-  if (isNaN(num)) {
-    displayOutput.innerText = "Please enter a valid number";
-    return;
-  }
-  if (num < 1) {
-    displayOutput.innerText =
-      "Please enter a number greater than or equal to 1";
-    return;
-  }
-  if (num > 3999) {
-    displayOutput.innerText =
-      "Please enter a number less than or equal to 3999";
+  if (isNaN(parsedNumber) || parsedNumber < 1 || parsedNumber > 3999) {
+    displayOutput.innerText = "Please enter a valid number between 1 and 3999";
     return;
   }
 
+  const result = getRomanNumeral(parsedNumber);
+  displayOutput.innerText = result;
+};
+
+const getRomanNumeral = (num) => {
   const romanNumerals = [
     ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"],
     ["", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC"],
@@ -32,13 +27,12 @@ const convertToRoman = () => {
   const tens = Math.floor((num % 100) / 10);
   const ones = num % 10;
 
-  const result =
+  return (
     romanNumerals[3][thousands] +
     romanNumerals[2][hundreds] +
     romanNumerals[1][tens] +
-    romanNumerals[0][ones];
-
-  displayOutput.innerText = result;
+    romanNumerals[0][ones]
+  );
 };
 
 convertBtn.addEventListener("click", convertToRoman);
